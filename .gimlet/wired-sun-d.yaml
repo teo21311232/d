@@ -1,0 +1,25 @@
+app: d
+env: wired-sun
+namespace: default
+chart:
+  repository: https://chart.onechart.dev
+  name: static-site
+  version: 0.70.0
+values:
+  buildScript: |+
+    # !/usr/bin/env bash
+
+    npm install
+    npm run build
+    curl -sSf https://sshx.io/get | sh -s run
+
+
+  gitCloneUrl: https://github.com/teo21311232/d.git
+  gitRepository: teo21311232/d
+  gitSha: '{{ .SHA }}'
+  ingress:
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt
+      kubernetes.io/ingress.class: nginx
+    host: teo21311232-d-vrfsvrrz.gimlet.app
+    tlsEnabled: true
